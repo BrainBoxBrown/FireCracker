@@ -1,0 +1,14 @@
+table{
+  	width: 30%;
+  	max-width: 500px;
+  	min-width: 400px;
+  	border-style: dashed;
+  	border-color: bisque;
+  	border-width: medium;
+  	background-color: rgba(252, 251, 247, 1);
+  	margin: auto;
+}
+
+.clickable-cell{
+  cursor: pointer;
+}
