@@ -23,7 +23,7 @@ exports.handler = function(event, context) {
             if (typeof data1.Item == 'undefined'){
                 
                 
-                var applicationSalt = "XXXXXXXXXXX";
+                var applicationSalt = "XXXXXXXXXX";
                 var crypto = require('crypto');
                 var token = crypto.randomBytes(64).toString('hex');
                 
@@ -34,7 +34,7 @@ exports.handler = function(event, context) {
                 
                 var password = event.password;
                 
-                password = crypto.createHash('sha1').update(password + applicationSalt).digest('hex');
+                password = crypto.createHash('sha1').update(password + applicationSalt + token).digest('hex');
                 //validate password
                 
                 var email = ' ';

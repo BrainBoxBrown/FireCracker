@@ -3,7 +3,7 @@ var AWS = require('aws-sdk');
 var dynamodb = new AWS.DynamoDB();
 // var doc = require('dynamodb-doc');
 // var dynamo = new doc.DynamoDB();
-var applicationSalt = "XXXXXXXXXXX";
+var applicationSalt = "XXXXXXXXXX";
 var crypto = require('crypto');
 
 exports.handler = function(event, context) {
@@ -14,7 +14,6 @@ exports.handler = function(event, context) {
     var username = event.username;
     var password = event.password;
     
-    password = crypto.createHash('sha1').update(password + applicationSalt).digest('hex');
     
     dynamodb.getItem({
     "Key": 
@@ -31,10 +30,11 @@ exports.handler = function(event, context) {
                 context.fail('Incorrect username or password');
             }else{
                 var pass = data.Item.password.S;
+                password = crypto.createHash('sha1').update(password + applicationSalt + data.Item.token.S).digest('hex');
                 console.log('Given ' + password + ', db:' + pass);
                 if (pass == password){
                     data.Item.token.S = '7' + data.Item.token.S;
-                    context.succeed(data.Item.token);
+                    context.succeed(data.Item.token.S);
                 }else{
                     context.fail('Incorrect username or password');
                 }
