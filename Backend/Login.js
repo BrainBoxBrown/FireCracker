@@ -3,7 +3,7 @@ var AWS = require('aws-sdk');
 var dynamodb = new AWS.DynamoDB();
 // var doc = require('dynamodb-doc');
 // var dynamo = new doc.DynamoDB();
-var applicationSalt = "ASIjGHRr7wYBQPp";
+var applicationSalt = "XXXXXXXXXXX";
 var crypto = require('crypto');
 
 exports.handler = function(event, context) {

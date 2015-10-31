@@ -23,7 +23,7 @@ exports.handler = function(event, context) {
             if (typeof data1.Item == 'undefined'){
                 
                 
-                var applicationSalt = "ASIjGHRr7wYBQPp";
+                var applicationSalt = "XXXXXXXXXXX";
                 var crypto = require('crypto');
                 var token = crypto.randomBytes(64).toString('hex');
                 

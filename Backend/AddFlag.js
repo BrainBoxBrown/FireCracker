@@ -1,7 +1,7 @@
 console.log('Loading event');
 var AWS = require('aws-sdk');
 var dynamodb = new AWS.DynamoDB();
-var flagSalt = "bJppymeUtB";
+var flagSalt = "XXXXXXXXX";
 var crypto = require('crypto');
 
 exports.handler = function(event, context) {
