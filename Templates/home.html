@@ -4,30 +4,85 @@
 	<div class="row">
 
 		<div class="col-md-2 col-md-offset-1">
-			<h2 class="col-md-4"><small class="score">Score:</small></h2>
-			<h2 class="col-md-8">{{ points }}</h2>
+			<h2 class="col-md-4 level"><small class="statsAlign">Level:</small></h2>
+			<h2 class="col-md-7 level col-md-offset-1">{{ level }}</h2>
+			<h2 class="col-md-4 score"><small class="statsAlign">Score:</small></h2>
+			<h2 class="col-md-7 score col-md-offset-1">{{ score }}</h2>
 		</div>
 
 		<div class="col-md-6">
+
+			<!-- Hello and welcome to the source code, I expected to see a few of you here I'm probably going to put a challenge in the site at some point too, maybe a password here -->
+
+			<!-- Big Flag box -->
 			<form ng-submit='getLevel()' >
 				<input type="text" placeholder="EnT3r_y0uR_f1aG" ng-model="$parent.tryPass" class="form-control">
 			</form>
 
+
+			<!-- Loading Blue -->
+			<div class="progress blue" ng-if="pointsStatus == statusCodes['loading blue']">
+			  <div class="progress-bar progress-bar-striped progress-bar-info active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+			  </div>
+			</div>
+
+			<!-- Loading Green -->
+			<div class="progress green" ng-if="pointsStatus == statusCodes['loading green']">
+			  <div class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+			  </div>
+			</div>
+
+			<!-- Loading Orange -->
+			<div class="progress orange" ng-if="pointsStatus == statusCodes['loading orange']">
+			  <div class="progress-bar progress-bar-striped progress-bar-warning active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+			  </div>
+			</div>
+
+			<!-- Loading Red -->
+			<div class="progress red" ng-if="pointsStatus == statusCodes['loading red']">
+			  <div class="progress-bar progress-bar-striped progress-bar-danger active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+			  </div>
+			</div>
+
 			<!-- Info box -->
-			<div class="alert alert-success infoBox" role="alert" ng-if='pointsStatus == 0'>
+			<div class="alert alert-success infoBox" role="alert" ng-if="pointsStatus == statusCodes['start hacking']">
 				Start Hacking!
 			</div>
 
-			<!-- Correct Flag box -->
-			<div class="alert alert-success infoBox" role="alert" ng-if='pointsStatus == 1'>
-				That flag is worth <strong>{{ points }} points</strong>
+			<!-- Already owned -->
+			<div class="alert alert-success infoBox" role="alert" ng-if="pointsStatus == statusCodes['already owned']">
+				You already got that flag, it's worth {{ potentialPoints }} points
 			</div>
+
+			<!-- punished for only doing a select few types -->
+			<div class="alert alert-success infoBox" role="alert" ng-if="pointsStatus == statusCodes['correct minus']">
+				That flag is worth {{ potentialPoints }} points but I'm only giving you {{ pointsEarned }}.
+			</div>
+
+			<!-- standard success -->
+			<div class="alert alert-success infoBox" role="alert" ng-if="pointsStatus == statusCodes['correct']">
+				Congradulations! That flag is worth {{ pointsEarned }} points
+			</div>
+
+			<!-- Bonus points for exploration -->
+			<div class="alert alert-success infoBox" role="alert" ng-if="pointsStatus == statusCodes['correct plus']">
+				That flag is worth {{ potentialPoints }} points, and I'm giving you {{ pointsEarned }}.
+			</div>
+
 
 
 			<!-- Wrong Flag box -->
-			<div class="alert alert-warning infoBox" role="alert" ng-if='pointsStatus == 2'>
+			<div class="alert alert-warning infoBox" role="alert" ng-if="pointsStatus == statusCodes['incorrect']">
 				I don't recgnise that flag (insert help bit)
 			</div>
+
+
+			<!-- Wrong login details -->
+			<div class="alert alert-danger infoBox" role="alert" ng-if="pointsStatus == statusCodes['wrong login']">
+				Wrong Login Details
+			</div>
+
+
 		</div>
 
 		<div class="col-md-3">
@@ -50,23 +105,55 @@
 				<input type="text" placeholder="EnT3r_y0uR_f1aG" ng-model="$parent.tryPass" class="form-control">
 			</form>
 
+			<!-- Loading Blue -->
+			<div class="progress blue" ng-if="pointsStatus == statusCodes['loading blue']">
+			  <div class="progress-bar progress-bar-striped progress-bar-info active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+			  </div>
+			</div>
+
+			<!-- Loading Green -->
+			<div class="progress green" ng-if="pointsStatus == statusCodes['loading green']">
+			  <div class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+			  </div>
+			</div>
+
+			<!-- Loading Orange -->
+			<div class="progress orange" ng-if="pointsStatus == statusCodes['loading orange']">
+			  <div class="progress-bar progress-bar-striped progress-bar-warning active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+			  </div>
+			</div>
+
+			<!-- Loading Red -->
+			<div class="progress red" ng-if="pointsStatus == statusCodes['loading red']">
+			  <div class="progress-bar progress-bar-striped progress-bar-danger active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+			  </div>
+			</div>
+
+
 			<!-- Info box -->
-			<div class="alert alert-info infoBox" role="alert" ng-if='pointsStatus == 0'>
+			<div class="alert alert-info infoBox" role="alert" ng-if="pointsStatus == statusCodes['login']">
 				Log in to start earning points
 			</div>
 
 
 			<!-- Correct Flag box -->
-			<div class="alert alert-success infoBox" role="alert" ng-if='pointsStatus == 1'>
+			<div class="alert alert-success infoBox" role="alert" ng-if="pointsStatus == statusCodes['no auth correct']">
 				That flag is worth <strong>{{ noAuthPoints }} points</strong>.
 				<small>(Sign in to save your progress)</small>
 			</div>
 
 
 			<!-- Wrong Flag box -->
-			<div class="alert alert-warning infoBox" role="alert" ng-if='pointsStatus == 2'>
+			<div class="alert alert-warning infoBox" role="alert" ng-if="pointsStatus == statusCodes['no auth incorrect']">
 				I don't recgnise that flag (insert help bit)
 			</div>
+
+			
+			<!-- Wrong login details -->
+			<div class="alert alert-danger infoBox" role="alert" ng-if="pointsStatus == statusCodes['wrong login']">
+				Wrong Login Details
+			</div>
+
 
 		</div>
 
@@ -79,12 +166,12 @@
 					</div>
 					<div class="col-sm-2">
 						<!-- Button trigger modal -->
-						<button type="button" class="btn btn-default" ng-click="showSignUp()">
+						<button type="button" class="btn btn-default" ng-click="open()">
 							Sign up
 						</button>
 					</div>
 				</div>
-
+				
 				<div class="form-group">
 					<!-- <label for="inputPassword3" class="col-sm-3 control-label">Password</label> -->
 					<div class="col-sm-7">
@@ -98,7 +185,22 @@
 		</div>
 	</div>
 </div>
-{{ userToken }}
+
+
+<div class="row">
+	<div class="col-md-6 col-md-offset-3">
+		<table class="table table-striped">
+		  <tr>
+		    <td>Username</td>
+		    <td>points</td>
+		  </tr>
+		  <tr ng-repeat="user in leaderboard">
+		    <td>{{ user.username }}</td>
+		    <td>{{ user.score }}</td>
+		  </tr>
+		</table>
+	</div>
+</div>
 
 
 

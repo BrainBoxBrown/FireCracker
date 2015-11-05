@@ -6,6 +6,13 @@
 
 	<form class="form-horizontal">
 
+
+
+		<!-- Wrong login details -->
+		<div class="alert alert-danger infoBox" role="alert" ng-if="alertText.length > 0">
+			{{ alertText }}
+		</div>
+
 		<div class="checkbox">
 			<label>
 				<input type="checkbox" id="unswChecked" value="" ng-model="ModelData.zid">
@@ -18,11 +25,11 @@
 		<div class="form-group" ng-show="ModelData.zid">
 			<label for="inputzID" class="col-sm-2 control-label">zID</label>
 			<div class="col-sm-10">
-				<input type="email" class="form-control" id="inputzID" placeholder="z1234567">
+				<input type="text" class="form-control" id="inputzID" placeholder="z1234567" ng-model="zid">
 			</div>
 			<div class="checkbox col-sm-8 col-sm-offset-2">
 				<label>
-					<input type="checkbox" id="poachChecked" value="">
+					<input type="checkbox" id="poachChecked" value="" ng-model="unswChecked">
 					I'm interested in a career in security
 				</label>
 			</div>
@@ -35,38 +42,60 @@
 		<div class="form-group">
 			<label for="inputPassword" class="col-sm-2 control-label">Email</label>
 			<div class="col-sm-10">
-				<input type="password" class="form-control" id="inputUsername" placeholder="Email" ng-model="signupUsername">
+				<input type="email" class="form-control" id="inputEmail" placeholder="Email" ng-model="email">
 			</div>
 			 <span id="helpBlock2" class="help-block"></span>
+
+			 <!-- You don't have to give an email, but if I can't contact you and I don't like you I can kick your ass off my leaderboard. If you don\'t want to give me your email, that's ok but your going to have to man-in-the-midddle the request to the server to bypass the client side verification, or just give me a bogus one, either way :p -->
+
 		</div>
 
 		<div class="form-group">
 			<label for="inputPassword" class="col-sm-2 control-label">Username</label>
 			<div class="col-sm-10">
-				<input type="password" class="form-control" id="inputUsername" placeholder="1337_H4ck0r" ng-model="signupUsername">
+				<input type="text" class="form-control" id="inputUsername" placeholder="1337_H4ck0r" ng-model="signupUsername">
 			</div>
 		</div>
 
 		<div class="form-group">
 			<label for="inputPassword" class="col-sm-2 control-label">Password</label>
 			<div class="col-sm-10">
-				<input type="password" class="form-control" id="inputPassword" placeholder="Password" ng-model="signupPass1">
+				<input type="text" class="form-control" id="inputPassword" placeholder="Password" ng-model="signupPass1">
 			</div>
 		</div>
 
 
-		<div class="form-group">
+		<div class="form-group has-success has-feedback"
+		ng-if="signupPass1.length > 0 && signupPass1 == signupPass2">
 			<label for="inputPassword" class="col-sm-2 control-label">Confirm Password</label>
 			<div class="col-sm-10">
-				<input type="password" class="form-control" id="inputPassword" placeholder="Confirm Password" ng-model="signupPass2">
+				<input type="password" class="form-control" id="inputPassword1" placeholder="Confirm Password" ng-model="$parent.signupPass2">
 			</div>
+		 	<span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+		 	<span id="inputSuccess2Status" class="sr-only">(success)</span>
 		</div>
+
+
+		<div class="form-group has-warning has-feedback"
+		ng-if="signupPass1.length > 0 && signupPass1 != signupPass2">
+			<label for="inputPassword" class="col-sm-2 control-label">Confirm Password</label>
+			<div class="col-sm-10">
+				<input type="password" class="form-control" id="inputPassword2" placeholder="Confirm Password" ng-model="$parent.signupPass2">
+			</div>
+			<span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
+			<span id="inputWarning2Status" class="sr-only">(warning)</span>
+		</div>
+
+
+
 
 	</form>
 
 </div>
 
 <div class="modal-footer">
-	<button type="button" class="btn btn-primary">HACK THE PLANET</button>
+	<button type="button" class="btn btn-primary" ng-click="ok()">HACK THE PLANET</button>
 </div>
+
+
 

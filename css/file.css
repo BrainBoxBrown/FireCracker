@@ -2,12 +2,16 @@ table{
   	width: 30%;
   	max-width: 500px;
   	min-width: 400px;
-  	border-style: dashed;
-  	border-color: bisque;
   	border-width: medium;
-  	background-color: rgba(252, 251, 247, 1);
+  	background-color: black;
   	margin: auto;
 }
+
+body{
+    background-color: black;
+}
+
+
 
 .points{
 	margin-top: 10px;
@@ -21,13 +25,45 @@ table{
   cursor: pointer;
 }
 
-.score{
+.statsAlign{
     vertical-align: 4px;
+}
+
+.level{
+    margin-top: 0px;
+    margin-bottom: 15px;
+}
+.score{
+    margin-top: 0px;
+}
+
+.progress{
+    margin-top: 14px;
+    margin-bottom: 10px;
+    height: 34px;
+    padding: 6px;
+}
+.progress.blue{
+    background-color: #d9edf7;
+}
+.progress.green{
+    background-color: #dff0d8;
+}
+.progress.orange{
+    background-color: #fcf8e3;
+}
+.progress.red{
+    background-color: #f2dede;
+}
+
+.progress-bar.progress-bar-striped.active{
+  animation-duration: 0.5s;
+  width: 100%;
 }
 
 
 /*some of this can probs go but cbf*/
-.modal {
+/*.modal {
 	display: table;
 	background: white;
 
@@ -69,4 +105,4 @@ table{
     z-index: 1040;
     background-color: black;
     opacity: 0.7;
-}
+}*/

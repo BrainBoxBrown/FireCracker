@@ -22,7 +22,7 @@ conn = dynamodb2.connect_to_region(
 )
 
 #this is the flag that we are adding
-flag = "hats"
+flag = "XNWFtWKWHhaaXoKI"
 salt = "8rjLAe8Nk7"
 
 #make a hash of it with the salt
@@ -33,7 +33,7 @@ hashedFlag = sha1.hexdigest()
 data = {
     "flag": hashedFlag,
     "category": "smashthestack",
-    "points": 8
+    "points": 30
 }
 flagTable = Table(
     TABLE_NAME,
