@@ -1,17 +1,21 @@
 table{
-  	width: 30%;
+/*  	width: 30%;
   	max-width: 500px;
-  	min-width: 400px;
+  	min-width: 400px;*/
   	border-width: medium;
   	background-color: black;
   	margin: auto;
 }
 
-body{
-    background-color: black;
+
+
+.welcome{
+    /*overflow: hidden;*/
+    white-space: nowrap;
+    /*font-size: 4vw;*/
+    /*width:100%;*/
+    /*font-size:0.4em;*/
 }
-
-
 
 .points{
 	margin-top: 10px;
@@ -32,28 +36,30 @@ body{
 .level{
     margin-top: 0px;
     margin-bottom: 15px;
+    text-align: center;
 }
 .score{
     margin-top: 0px;
+    text-align: center;
 }
 
 .progress{
     margin-top: 14px;
     margin-bottom: 10px;
     height: 34px;
-    padding: 6px;
+    padding: 4px;
 }
 .progress.blue{
-    background-color: #d9edf7;
+    background-color: #9933cc;
 }
 .progress.green{
-    background-color: #dff0d8;
+    background-color: #77b300;
 }
 .progress.orange{
-    background-color: #fcf8e3;
+    background-color: #ff8800;
 }
 .progress.red{
-    background-color: #f2dede;
+    background-color: #cc0000;
 }
 
 .progress-bar.progress-bar-striped.active{
@@ -62,7 +68,22 @@ body{
 }
 
 
-/*some of this can probs go but cbf*/
+
+
+
+
+html,body{outline:none;margin:0;padding:0;text-align:justify;background:#000;color:#fff;line-height:1.5;font-weight:300;background-color:black;height:100%;-webkit-text-size-adjust:100%;font-family:"Courier New"}
+
+h1,h2,h3,h4,h5,h6,p,blockquote,pre,.ascii-logo,ul,ol,dl,figure{margin-bottom:15px;font-family:"Courier New"}
+ol{margin-right:22px;padding-left:22px}a{text-decoration:none;color:inherit}
+pre,.ascii-logo{padding:0;margin:0;background:transparent;word-wrap:break-word;outline:0;border:0;color:white}
+
+.ascii-logo{background:transparent;text-align:center;border:0;margin:0;margin:16px;padding-bottom:16px}
+.pwnlist{list-style-type:none;padding:0}
+
+
+
+/*some of this can probs go but cbf
 /*.modal {
 	display: table;
 	background: white;

@@ -1,7 +1,9 @@
+
+
 console.log('Loading event');
 var AWS = require('aws-sdk');
 var dynamodb = new AWS.DynamoDB();
-
+var applicationSalt = "XXX";
 
 exports.handler = function(event, context) {
     console.log("Request received:\n", JSON.stringify(event));
@@ -18,12 +20,11 @@ exports.handler = function(event, context) {
     "TableName": tableName
     }, function(err1, data1) {
         if (err1) {
-            context.fail('Umm shit');
+            context.fail('Umm shitttt');
         } else {
             if (typeof data1.Item == 'undefined'){
                 
                 
-                var applicationSalt = "XXXXXXXXXX";
                 var crypto = require('crypto');
                 var token = crypto.randomBytes(64).toString('hex');
                 
@@ -42,20 +43,21 @@ exports.handler = function(event, context) {
                 var careerInterest = 'false';
                 var isUnsw = 'false';
                 
-                if (typeof event.email != 'undefined'){
+                if (typeof event.email != 'undefined' && event.email.length > 0){
                     email = event.email;
+                    
+                    console.log('email ' + email);
                 }
+                    console.log('email ' + email);
                 if (typeof event.zid != 'undefined' && event.zid.match(/[z][0-9]{7}/)){
                     zid = event.zid;
                 }
-                if (typeof event.careerInterest != 'undefined'){
+                if (typeof event.careerInterest != 'undefined' && event.careerInterest.length > 0){
                    careerInterest = event.careerInterest;
                 }
-                if (typeof event.isUnsw != 'undefined'){
+                if (typeof event.isUnsw != 'undefined' && event.isUnsw.length > 0){
                     isUnsw = event.isUnsw;
                 }
-                
-                
                 
                 dynamodb.putItem({
                      "TableName": tableName,
@@ -79,7 +81,10 @@ exports.handler = function(event, context) {
                         dynamodb.putItem({
                          "TableName": "FireCrackerTable",
                             "Item":{
-                                "token":{"S":token}
+                                "token":{"S":token},
+                                "username":{"S":username},
+                                "score":{"N":"0"},
+                                "level":{"N":'0'}
                             }
                         }, function(err3, data3) {
                             if (err3) {
@@ -87,18 +92,11 @@ exports.handler = function(event, context) {
                             }
                             else {
                                 console.log('great success: '+JSON.stringify(data3, null, '  '));
-                                context.succeed(token);
+                                context.succeed({"S": token});
                             }
                         });
-                        
-                        
-                        
-                        
                     }
                 });
-                
-                
-                
             }else{
                 context.fail('User exists');
             }

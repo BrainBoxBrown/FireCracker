@@ -2,29 +2,98 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 
   var getPass = $resource('https://2o25vxsrq3.execute-api.ap-northeast-1.amazonaws.com/Test/password:pass:tok', {pass:'@ps', tok:'@tk'});
   var loginResource = $resource('https://2o25vxsrq3.execute-api.ap-northeast-1.amazonaws.com/Test/login:user:pass', {user:'@us', pass:'@pw'});
-  $scope.userToken = $cookies.get('token');
+  var scoreboardResource = $resource('https://2o25vxsrq3.execute-api.ap-northeast-1.amazonaws.com/Test/scoreboard');
+  $scope.userToken = $cookies.get('pointlessToken');
   $scope.loggedIn =  (typeof($scope.userToken) != "undefined" && 
-	$cookies.get('token') != '' && 
-	$cookies.get('token') != 'VlROU2RtTkRRbk5pTWpseVlWYzFia2xIUmpCSlJ6RTFTVWRPZG1JeWRIQmFXRTFMQ2c9PQo=');
+	$cookies.get('pointlessToken') != '' && 
+	$cookies.get('pointlessToken') != 'VlROU2RtTkRRbk5pTWpseVlWYzFia2xIUmpCSlJ6RTFTVWRPZG1JeWRIQmFXRTFMQ2c9PQo=');
 
   $scope.username = '';
   $scope.password = '';
   $scope.tryPass = '';
   $scope.noAuthPoints = 0;
+  $scope.rank = '_';
 
-  $scope.leaderboard = [
+
+
+  //get the leaderboard on refresh/load
+  $scope.leaderboard = [];
+
+
+
+
+  	$scope.challenges = [
   		{
-  			'username':'bob',
-  			'score' : 6
+  			"name" : "comming soon!"
   		},
   		{
-  			'username':'bob2',
-  			'score' : 5
-  		},{
-  			'username':'bob3',
-  			'score' : 2
+  			"name" : "comming soon!"
+  		},
+  		{
+  			"name" : "comming soon!"
   		}
+  		
   	];
+
+  	$scope.majorWargames = [
+  		{
+  			"name" : "OverTheWire",
+  			"link" : "http://overthewire.org/wargames/"
+  		},
+  		{
+  			"name" : "io.smashthestack",
+  			"link" : "http://io.smashthestack.org"
+  		},
+
+  		{
+  			"name" : "io.smashthestack-64",
+  			"link" : "http://io.smashthestack.org:8064"
+  		},
+
+  		{
+  			"name" : "io.smashthestack-arm",
+  			"link" : "http://188.166.114.127/"
+  		},
+
+  		{
+  			"name" : "Microcorruption",
+  			"link" : "https://microcorruption.com"
+  		},
+
+  		{
+  			"name" : "pwnable.kr",
+  			"link" : "http://pwnable.kr"
+  		}
+  		
+  	];
+
+
+  	$scope.otherWargames = [
+
+  		{
+  			"name" : "reversing.kr",
+  			"link" : "http://reversing.kr"
+  		},
+
+  		{
+  			"name" : "hax.tor.hu",
+  			"link" : "http://hax.tor.hu/"
+  		},
+
+  		{
+  			"name" : "w3challs.com",
+  			"link" : "https://w3challs.com"
+  		},
+
+  		{
+  			"name" : "ringzer0team.com",
+  			"link" : "http://ringzer0team.com"
+  		}
+  		
+  	];
+
+
+  	
 
   var statusCodes = {
 	"login" : 00,
@@ -98,15 +167,15 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 	$scope.getLevel = function(first) {
 
 		$scope.pointsStatus += 40 - ($scope.pointsStatus%10); //turns it into a loading animation
-		getPass.get({flag:$scope.tryPass, token:$cookies.get('token')})
+		getPass.get({flag:$scope.tryPass, token:$cookies.get('pointlessToken')})
 		.$promise.then(function(response){
 			if (response.score){
-				console.log('yo wtf' + response);
+				console.log(response);
 				$scope.score = response.score.N*1;
 				$scope.pointsEarned = response.pointsEarned.N*1;
 				$scope.potentialPoints = response.potentialPoints.N*1;
 				$scope.pointsStatus = statusCodes["correct"];
-				if (response.alreadyOwned){
+				if (response.alreadyOwned.Bool){
 					$scope.pointsStatus = statusCodes["already owned"];
 				}
 				$scope.level = response.level.N*1;
@@ -116,6 +185,8 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 			if (first){
 				$scope.pointsStatus = statusCodes["start hacking"];
 			}
+
+  			$scope.updateScoreboard();
 	});};
 
 	$scope.showPoints = function() {
@@ -142,12 +213,15 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 			if (typeof(response) != "undefined"){
 				$scope.userToken = response.token.S;
 				console.log($cookies);
-				$cookies.put('token', response.token.S);
+				$cookies.put('pointlessToken', response.token.S);
 				$scope.loggedIn =  (typeof($scope.userToken) != "undefined");
 				$scope.score = response.score.N;
+				$cookies.put('welcomeName', $scope.username);
+				$scope.welcomeName = $scope.username;
 				$scope.username = '';
 				$scope.password = '';
 				$scope.pointsStatus = statusCodes["start hacking"];
+  				$scope.updateScoreboard();
 			}else{
 				$scope.pointsStatus = statusCodes["wrong login"];
 			}
@@ -156,11 +230,37 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 			$scope.pointsStatus = statusCodes["wrong login"];
 	});};
 
+  	$scope.updateScoreboard = function () {
+		scoreboardResource.get().$promise.then(function(response){
+			if (response.board){
+				console.log(response.board);
+				//Get the leaderboard and sort on score
+				$scope.leaderboard = response.board.sort(function(a,b){
+					return b.score - a.score;
+				});
+
+				if($scope.loggedIn){
+					for (var rank in $scope.leaderboard){
+						if ($scope.leaderboard[rank].username === $scope.welcomeName){
+							$scope.leaderboard[rank].you = true;
+							$scope.rank = rank*1 + 1;
+						}else{
+							$scope.leaderboard[rank].you = false;
+						}
+					}
+				}
+			}else{
+				//handel this better
+				console.log('Error retrieving scoreboard :(');
+			}
+		});
+	}
+
 
 	$scope.logout = function() {
-		$cookies.put('token', 'VlROU2RtTkRRbk5pTWpseVlWYzFia2xIUmpCSlJ6RTFTVWRPZG1JeWRIQmFXRTFMQ2c9PQo=');
+		$cookies.put('pointlessToken', 'VlROU2RtTkRRbk5pTWpseVlWYzFia2xIUmpCSlJ6RTFTVWRPZG1JeWRIQmFXRTFMQ2c9PQo=');
 		$scope.loggedIn = false;
-		$scope.userToken = $cookies['token'];
+		$scope.userToken = $cookies['pointlessToken'];
 		$scope.tryPass = '';
 		$scope.pointsStatus = 0;
 	};
@@ -182,11 +282,11 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 		});
 
 		modalInstance.result.then(function (token) {
-			$cookies.put('token', token);
+			$cookies.put('pointlessToken', token);
 			$scope.userToken = token;
 			$scope.loggedIn =  (typeof($scope.userToken) != "undefined" && 
-				$cookies.get('token') != '' && 
-				$cookies.get('token') != 'VlROU2RtTkRRbk5pTWpseVlWYzFia2xIUmpCSlJ6RTFTVWRPZG1JeWRIQmFXRTFMQ2c9PQo=');
+				$cookies.get('pointlessToken') != '' && 
+				$cookies.get('pointlessToken') != 'VlROU2RtTkRRbk5pTWpseVlWYzFia2xIUmpCSlJ6RTFTVWRPZG1JeWRIQmFXRTFMQ2c9PQo=');
 			console.log('token == ' + token);
 			if ($scope.loggedIn){
 				$scope.tryPass = 'loginFlag';
@@ -210,6 +310,10 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 		$scope.getLevel(true);
 		$scope.tryPass = '';
 	}
+
+  	$scope.welcomeName = $cookies.get('welcomeName');
+  	$scope.updateScoreboard();
+
 
 
 });
