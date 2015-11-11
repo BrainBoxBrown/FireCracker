@@ -22,7 +22,7 @@ conn = dynamodb2.connect_to_region(
 )
 
 #this is the flag that we are adding
-flag = "test salts" # smash the stack 1
+flag = "" 
 salts =  ["XXX"]
 
 #make a hash of it with the salt

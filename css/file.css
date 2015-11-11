@@ -67,9 +67,11 @@ table{
   width: 100%;
 }
 
-
-
-
+.selected {
+    background-color:black;
+    color:white;
+    font-weight:bold;
+}
 
 
 html,body{outline:none;margin:0;padding:0;text-align:justify;background:#000;color:#fff;line-height:1.5;font-weight:300;background-color:black;height:100%;-webkit-text-size-adjust:100%;font-family:"Courier New"}

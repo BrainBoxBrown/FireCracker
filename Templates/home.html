@@ -22,26 +22,26 @@
 
 			<!-- Loading Blue -->
 			<div class="progress blue" ng-if="pointsStatus == statusCodes['loading blue']">
-			  <div class="progress-bar progress-bar-striped progress-bar-info active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
-			  </div>
+				<div class="progress-bar progress-bar-striped progress-bar-info active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+				</div>
 			</div>
 
 			<!-- Loading Green -->
 			<div class="progress green" ng-if="pointsStatus == statusCodes['loading green']">
-			  <div class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
-			  </div>
+				<div class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+				</div>
 			</div>
 
 			<!-- Loading Orange -->
 			<div class="progress orange" ng-if="pointsStatus == statusCodes['loading orange']">
-			  <div class="progress-bar progress-bar-striped progress-bar-warning active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
-			  </div>
+				<div class="progress-bar progress-bar-striped progress-bar-warning active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+				</div>
 			</div>
 
 			<!-- Loading Red -->
 			<div class="progress red" ng-if="pointsStatus == statusCodes['loading red']">
-			  <div class="progress-bar progress-bar-striped progress-bar-danger active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
-			  </div>
+				<div class="progress-bar progress-bar-striped progress-bar-danger active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+				</div>
 			</div>
 
 			<!-- Info box -->
@@ -111,26 +111,26 @@
 
 			<!-- Loading Blue -->
 			<div class="progress blue" ng-if="pointsStatus == statusCodes['loading blue']">
-			  <div class="progress-bar progress-bar-striped progress-bar-info active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
-			  </div>
+				<div class="progress-bar progress-bar-striped progress-bar-info active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+				</div>
 			</div>
 
 			<!-- Loading Green -->
 			<div class="progress green" ng-if="pointsStatus == statusCodes['loading green']">
-			  <div class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
-			  </div>
+				<div class="progress-bar progress-bar-striped progress-bar-success active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+				</div>
 			</div>
 
 			<!-- Loading Orange -->
 			<div class="progress orange" ng-if="pointsStatus == statusCodes['loading orange']">
-			  <div class="progress-bar progress-bar-striped progress-bar-warning active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
-			  </div>
+				<div class="progress-bar progress-bar-striped progress-bar-warning active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+				</div>
 			</div>
 
 			<!-- Loading Red -->
 			<div class="progress red" ng-if="pointsStatus == statusCodes['loading red']">
-			  <div class="progress-bar progress-bar-striped progress-bar-danger active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
-			  </div>
+				<div class="progress-bar progress-bar-striped progress-bar-danger active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" >
+				</div>
 			</div>
 
 
@@ -191,50 +191,139 @@
 </div>
 
 
+<!-- The following stuff shows up reguardless of login status -->
+
+
 <div class="row">
+
+	<!-- The actual leaderboard -->
 	<div class="col-sm-6 col-sm-offset-1">
 		<table class="table">
 			<tr>Leaderboard</tr>
-		  <tr ng-repeat="user in leaderboard">
-		    <td style="width:1%">{{ $index + 1 }}.</td>
-		    <td style="text-align:left;">{{ user.username }}</td>
-		    <td style="width:40%">{{ user.level }}</td>
-		    <td>{{ user.score }}</td>
-		  </tr>
+			<tr ng-repeat="user in leaderboard" ng-class="{'selected':$index == rank-1}">
+				<td style="width:1%">{{ $index + 1 }}.</td>
+				<td style="text-align:left;">{{ user.username }}</td>
+				<td style="width:40%">{{ user.level }}</td>
+				<td>{{ user.score }}</td>
+			</tr>
 		</table>
 	</div>
 
+	<!-- ThE AcCordion of chAlLengEs -->
 	<div class="col-sm-4 col-sm-offset-1">
-
-		<table class="table">
-			<tr>Our Challenges</tr>
-		  <tr ng-repeat="game in challenges">
-		    <td style="width:1%">{{ $index + 1 }}.</td>
-		    <td style="text-align:left;">{{ game.name }}</td>
-		  </tr>
-		</table>
-		<br>
-		<br>
-		<br>
-		<table class="table">
-			<tr>Major Wargames</tr>
-		  <tr ng-repeat="game in majorWargames">
-		    <td style="width:1%">{{ $index + 1 }}.</td>
-		    <td style="text-align:left;"><a href={{game.link}}>{{ game.name }}</a></td>
-		  </tr>
-		</table>
-		<br>
-		<br>
-		<br>
-		<table class="table">
-			<tr>Other Wargames <small>(worth less points)</small></tr>
-		  <tr ng-repeat="game in otherWargames">
-		    <td style="width:1%">{{ $index + 1 }}.</td>
-		    <td style="text-align:left;"><a href={{game.link}}>{{ game.name }}</a></td>
-		  </tr>
-		</table>
+		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+			<div class="panel panel-default"  ng-repeat="game in challenges">
+				<div class="panel-heading" role="tab">
+					<h4 class="panel-title">
+						<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ game.name }}" aria-expanded="false" aria-controls="collapse{{ game.name }}" ng-click="$event.preventDefault();">
+							{{ game.name }}  ({{ game.points }})
+						</a>
+					</h4>
+				</div>
+				<div id="collapse{{ game.name }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+					<div class="panel-body">
+						<strong>Type:</strong>{{ game.type }} <br>
+						<strong>Description:</strong> {{ game.description }} <br>
+						<a href="{{ game.link }}">--&gtDownload Binary&lt--</a> <br>
+						<strong>Connection:</strong> {{ game.connection }}
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
+
+
+
 </div>
 
+
+<br>
+<br>
+<br>
+<br>
+
+
+<div class="row">
+
+	<div class="col-sm-3 col-sm-offset-1">
+		<table class="table">
+			<tr>UNSW Security Socitey</tr>
+
+
+			<tr>
+				<td>
+					<a href="https://www.facebook.com/groups/dotsoc/?fref=ts">I need help hacking!</a>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<a href="https://www.facebook.com/groups/dotsoc/?fref=ts">facebook</a>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<a href="https://www.facebook.com/groups/dotsoc/?fref=ts">contact us</a>
+				</td>
+			</tr>
+
+			<tr>
+				<td>
+					<a href="https://www.facebook.com/groups/dotsoc/?fref=ts">sponsorship</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="col-sm-3 col-sm-offset-1">
+		<table class="table">
+		<tr>Major Wargames</tr>
+			<tr ng-repeat="game in majorWargames">
+				<td style="width:1%">{{ $index + 1 }}.</td>
+				<td style="text-align:left;"><a href={{game.link}}>{{ game.name }}</a></td>
+			</tr>
+		</table>
+	</div>
+
+	<div class="col-sm-3 col-sm-offset-1">
+		<table class="table">
+			<tr>Other Wargames</tr>
+			<tr ng-repeat="game in otherWargames">
+				<td style="width:1%">{{ $index + 1 }}.</td>
+				<td style="text-align:left;"><a href={{game.link}}>{{ game.name }}</a></td>
+			</tr>
+		</table>
+	</div>
+
+</div>
+
+
+
+
+
+
+
+<!-- 
+
+
+
+
+		<table class="table">
+			<tr>Current Challenges</tr>
+			<tr ng-repeat="game in challenges">
+				<td style="width:1%">{{ $index + 1 }}.</td>
+				<td style="text-align:left;">{{ game.name }}</td>
+				<td><a href={{ game.link }}>Download Binary</td>
+				<td>{{ game.type }}</td>
+				<td>({{ game.points }})</td>
+			</tr>
+		</table>
+ -->
+
+
+
+
+		
 
 

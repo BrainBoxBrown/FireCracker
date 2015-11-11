@@ -24,13 +24,26 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 
   	$scope.challenges = [
   		{
-  			"name" : "comming soon!"
+  			"name" : "selftest",
+  			"link" : "/Challenges/selftest",
+  			"type" : "Reversing",
+  			"description" : "Stolen from a past CTF",
+  			"connection" : "nc 54.66.165.221 3001",
+  			"points" : "100"
   		},
   		{
-  			"name" : "comming soon!"
+  			"name" : "buf",
+  			"link" : "/Challenges/selftest",
+  			"type" : "Rev",
+  			"description" : "Stolen from a past CTF",
+  			"points" : "100"
   		},
   		{
-  			"name" : "comming soon!"
+  			"name" : "se",
+  			"link" : "/Challenges/selftest",
+  			"description" : "Stolen from a past CTF",
+  			"type" : "Rev",
+  			"points" : "100"
   		}
   		
   	];
@@ -263,6 +276,8 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 		$scope.userToken = $cookies['pointlessToken'];
 		$scope.tryPass = '';
 		$scope.pointsStatus = 0;
+		$scope.rank = null;
+  		$scope.updateScoreboard();
 	};
 
 
