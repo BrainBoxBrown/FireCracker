@@ -72,6 +72,11 @@ table{
     color:white;
     font-weight:bold;
 }
+.panel-heading.completed {
+    background-color: #77b300;
+    color:white;
+    font-weight:bold;
+}
 
 
 html,body{outline:none;margin:0;padding:0;text-align:justify;background:#000;color:#fff;line-height:1.5;font-weight:300;background-color:black;height:100%;-webkit-text-size-adjust:100%;font-family:"Courier New"}
@@ -80,7 +85,15 @@ h1,h2,h3,h4,h5,h6,p,blockquote,pre,.ascii-logo,ul,ol,dl,figure{margin-bottom:15p
 ol{margin-right:22px;padding-left:22px}a{text-decoration:none;color:inherit}
 pre,.ascii-logo{padding:0;margin:0;background:transparent;word-wrap:break-word;outline:0;border:0;color:white}
 
-.ascii-logo{background:transparent;text-align:center;border:0;margin:0;margin:16px;padding-bottom:16px}
+.ascii-logo{
+    background:transparent;
+    text-align:center;
+    border:0;
+    margin:0;
+    margin:16px;
+    padding-bottom:16px
+    font-size: 200%;
+}
 .pwnlist{list-style-type:none;padding:0}
 
 

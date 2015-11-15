@@ -13,6 +13,7 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
   $scope.tryPass = '';
   $scope.noAuthPoints = 0;
   $scope.rank = '_';
+  $scope.screenWidth = window.innerWidth;
 
 
 
@@ -23,26 +24,54 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 
 
   	$scope.challenges = [
+
+  		{
+  			"name" : "alive",
+  			"type" : "Misc",
+  			"link" : "/Challenges/alive.txt",
+  			"description" : "Are you awake? This should be easy ;)",
+  			"solved" : false,
+  			"points" : "4"
+  		},
+  		{
+  			"name" : "flynn_hash",
+  			"type" : "HashCracking",
+  			"description" : "This flag is 16 characters long and is made from the letters of 'flynn' eg: flynn{lyfylfnlyynnfylf}.                        sha1( flynn{[flyn]x16} ) = f95c4f49edc4e0a3e3a5fb79ff2eb5a71f36cfe5",
+  			"solved" : false,
+  			"points" : "75"
+  		},
+  		{
+  			"name" : "merklePuzzle",
+  			"type" : "HashCracking",
+  			"description" : "Flynn and James are using merkle puzzles, you need to find which puzzle they are using",
+  			"link" : "/Challenges/merkle/puzzles.txt",
+  			"solved" : false,
+  			"points" : "82"
+  		},
+  		{
+  			"name" : "sequence",
+  			"type" : "Reversing",
+  			"description" : "Stolen from a past CTF",
+  			"link" : "/Challenges/sequence",
+  			"solved" : false,
+  			"points" : "100"
+  		},
   		{
   			"name" : "selftest",
   			"link" : "/Challenges/selftest",
   			"type" : "Reversing",
   			"description" : "Stolen from a past CTF",
   			"connection" : "nc 54.66.165.221 3001",
+  			"solved" : false,
   			"points" : "100"
   		},
   		{
-  			"name" : "buf",
-  			"link" : "/Challenges/selftest",
-  			"type" : "Rev",
+  			"name" : "greeter",
+  			"link" : "/Challenges/greeter",
+  			"type" : "Exploit",
   			"description" : "Stolen from a past CTF",
-  			"points" : "100"
-  		},
-  		{
-  			"name" : "se",
-  			"link" : "/Challenges/selftest",
-  			"description" : "Stolen from a past CTF",
-  			"type" : "Rev",
+  			"connection" : "nc 54.66.165.221 3002",
+  			"solved" : false,
   			"points" : "100"
   		}
   		
@@ -249,17 +278,39 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 				console.log(response.board);
 				//Get the leaderboard and sort on score
 				$scope.leaderboard = response.board.sort(function(a,b){
-					return b.score - a.score;
+					x = b.score - a.score;
+					if (x != 0){
+						return x;
+					}
+					//else they are tied
+					if (typeof a.timestamp != 'undefined' && typeof b.timestamp != 'undefined' ){
+						return a.timestamp - b.timestamp
+					}
+
 				});
 
 				if($scope.loggedIn){
-					for (var rank in $scope.leaderboard){
-						if ($scope.leaderboard[rank].username === $scope.welcomeName){
-							$scope.leaderboard[rank].you = true;
-							$scope.rank = rank*1 + 1;
+					for (var index in $scope.leaderboard){
+						if ($scope.leaderboard[index].username === $scope.welcomeName){
+							$scope.leaderboard[index].you = true;
+							$scope.rank = index*1 + 1;
+							$scope.score = $scope.leaderboard[index].score;
+											//this sort is ok due to the small number of challenges
+							for (var chal in $scope.leaderboard[index].solved){
+								for (var ourChal in $scope.challenges){
+									if ($scope.leaderboard[index].solved[chal] == $scope.challenges[ourChal]['name']){
+										$scope.challenges[ourChal]['solved'] = true;
+									}
+								}
+							}
+
 						}else{
-							$scope.leaderboard[rank].you = false;
+							$scope.leaderboard[index].you = false;
 						}
+					}
+				}else{
+					for (var ourChal in $scope.challenges){
+						$scope.challenges[ourChal]['solved'] = false;
 					}
 				}
 			}else{

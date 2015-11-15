@@ -16,7 +16,7 @@
 
 			<!-- Big Flag box -->
 			<form ng-submit='getLevel()' >
-				<input type="text" placeholder="EnT3r_y0uR_f1aG" ng-model="$parent.tryPass" class="form-control">
+				<input type="text" placeholder="flynn{EnT3r_y0uR_f1aG}" ng-model="$parent.tryPass" class="form-control">
 			</form>
 
 
@@ -61,7 +61,7 @@
 
 			<!-- standard success -->
 			<div class="alert alert-success infoBox" role="alert" ng-if="pointsStatus == statusCodes['correct']">
-				Congradulations! That flag is worth {{ pointsEarned }} points
+				Congratulations! That flag is worth {{ pointsEarned }} points
 			</div>
 
 			<!-- Bonus points for exploration -->
@@ -106,7 +106,7 @@
 
 			<!-- input box -->
 			<form ng-submit='showPoints()' >
-				<input type="text" placeholder="EnT3r_y0uR_f1aG" ng-model="$parent.tryPass" class="form-control">
+				<input type="text" placeholder="flynn{EnT3r_y0uR_f1aG}" ng-model="$parent.tryPass" class="form-control">
 			</form>
 
 			<!-- Loading Blue -->
@@ -193,6 +193,38 @@
 
 <!-- The following stuff shows up reguardless of login status -->
 
+<!-- 		<pre class="ascii-logo"><small>
+
+ ______  _                       _        	 _    _              ______                           
+|  ___/ | |                     ( )       	| |  | |             | ___ \                          
+| |__   | | _   _  _ __   _ __  |/  ___   	| |  | |  __ _  _ __ | |_/ /  ___    ___   _ __ ___   
+|  __|  | || | | || '_ \ | '_ \    / __|  	| |/\| | / _` || '__||    /  / _ \  / _ \ | '_ ` _ \  
+| |     | || |_| || | | || | | |   \__ \  	\  /\  /| (_| || |   | |\ \ | (_) || (_) || | | | | | 
+|_|     |_| \__, ||_| |_||_| |_|   |___/  	 \/  \/  \__,_||_|   \_| \_| \___/  \___/ |_| |_| |_| 
+            __/ |                        	                                                      
+           |___/                         	                                                      
+		</small></pre> -->
+
+
+<pre class="ascii-logo"><strong>
+
+██╗    ██╗   █████╗   ██████╗  		 ██████╗    ██████╗    ██████╗   ███╗   ███╗
+██║    ██║  ██╔══██╗  ██╔══██╗ 		 ██╔══██╗  ██╔═══██╗  ██╔═══██╗  ████╗ ████║
+██║ █╗ ██║  ███████║  ██████╔╝ 		 ██████╔╝  ██║   ██║  ██║   ██║  ██╔████╔██║
+██║███╗██║  ██╔══██║  ██╔══██╗ 		 ██╔══██╗  ██║   ██║  ██║   ██║  ██║╚██╔╝██║
+╚███╔███╔╝  ██║  ██║  ██║  ██║ 		 ██║  ██║  ╚██████╔╝  ╚██████╔╝  ██║ ╚═╝ ██║
+ ╚══╝╚══╝   ╚═╝  ╚═╝  ╚═╝  ╚═╝ 		 ╚═╝  ╚═╝   ╚═════╝    ╚═════╝   ╚═╝     ╚═╝
+
+</strong>                                                                             
+  _                __   _                      
+ | |__   _  _     / _| | |  _  _   _ _    _ _  
+ | '_ \ | || |   |  _| | | | || | | ' \  | ' \ 
+ |_.__/  \_, |   |_|   |_|  \_, | |_||_| |_||_|
+         |__/               |__/               
+</pre>
+
+
+
 
 <div class="row">
 
@@ -203,7 +235,7 @@
 			<tr ng-repeat="user in leaderboard" ng-class="{'selected':$index == rank-1}">
 				<td style="width:1%">{{ $index + 1 }}.</td>
 				<td style="text-align:left;">{{ user.username }}</td>
-				<td style="width:40%">{{ user.level }}</td>
+				<td style="width:50%">{{ user.level }}</td>
 				<td>{{ user.score }}</td>
 			</tr>
 		</table>
@@ -212,20 +244,22 @@
 	<!-- ThE AcCordion of chAlLengEs -->
 	<div class="col-sm-4 col-sm-offset-1">
 		<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-			<div class="panel panel-default"  ng-repeat="game in challenges">
-				<div class="panel-heading" role="tab">
+			<div class="panel panel-default"  ng-repeat="game in challenges" >
+				<div class="panel-heading" role="tab" ng-class="{'completed':game.solved}">
 					<h4 class="panel-title">
-						<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ game.name }}" aria-expanded="false" aria-controls="collapse{{ game.name }}" ng-click="$event.preventDefault();">
+						<a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ game.name }}" aria-expanded="false" aria-controls="collapse{{ game.name }}" ng-click="$event.preventDefault();" >
 							{{ game.name }}  ({{ game.points }})
 						</a>
 					</h4>
 				</div>
 				<div id="collapse{{ game.name }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
-					<div class="panel-body">
+					<div class="panel-body" style="text-align: left">
 						<strong>Type:</strong>{{ game.type }} <br>
 						<strong>Description:</strong> {{ game.description }} <br>
-						<a href="{{ game.link }}">--&gtDownload Binary&lt--</a> <br>
-						<strong>Connection:</strong> {{ game.connection }}
+						<a href="{{ game.link }}" ng-if="game.link">--&gtDownload&lt--</a> <br>
+						<div ng-if="game.connection">
+							<strong>Connection:</strong> {{ game.connection }}
+						</div>
 					</div>
 				</div>
 			</div>

@@ -21,9 +21,8 @@ conn = dynamodb2.connect_to_region(
     aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY']
 )
 
-#this is the flag that we are adding
-flag = "" 
-salts =  ["XXX"]
+flag = ""
+salts =  ""
 
 #make a hash of it with the salt
 hashedFlag = flag
@@ -31,11 +30,13 @@ for salt in salts:
 	sha1 = hashlib.sha1()
 	sha1.update(hashedFlag + salt)
 	hashedFlag = sha1.hexdigest()
+print hashedFlag
 
 data = {
     "flag": hashedFlag,
-    "category": "smashthestack",
-    "points": 1
+    "challenge": "sequence",
+    "category": "Reversing",
+    "points": 100
 }
 flagTable = Table(
     TABLE_NAME,
