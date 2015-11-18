@@ -49,6 +49,14 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
   			"points" : "82"
   		},
   		{
+  			"name" : "MAC_n_me",
+  			"type" : "Programming",
+  			"description" : "Understand how the program works and you will surely win. If 3441 is not working try 3442",
+  			"connection" : "nc 54.66.165.221 3441",
+  			"solved" : false,
+  			"points" : "73"
+  		},
+  		{
   			"name" : "sequence",
   			"type" : "Reversing",
   			"description" : "Stolen from a past CTF",
@@ -221,13 +229,15 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 					$scope.pointsStatus = statusCodes["already owned"];
 				}
 				$scope.level = response.level.N*1;
+
+				$scope.welcomeName = response.username.S;
+				$cookies.put('welcomeName', response.username.S);
 			}else{
 				$scope.pointsStatus = statusCodes["incorrect"];
 			}
-			if (first){
+			if (first || $scope.tryPass == 'loginFlag'){
 				$scope.pointsStatus = statusCodes["start hacking"];
 			}
-
   			$scope.updateScoreboard();
 	});};
 
@@ -292,14 +302,22 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 				if($scope.loggedIn){
 					for (var index in $scope.leaderboard){
 						if ($scope.leaderboard[index].username === $scope.welcomeName){
+							//this is you
+
+							console.log('Isolvasdfasdfed');
 							$scope.leaderboard[index].you = true;
 							$scope.rank = index*1 + 1;
 							$scope.score = $scope.leaderboard[index].score;
 											//this sort is ok due to the small number of challenges
-							for (var chal in $scope.leaderboard[index].solved){
-								for (var ourChal in $scope.challenges){
+
+							for (var ourChal in $scope.challenges){
+								//set it to false
+								// $scope.challenges[ourChal]['solved'] = false;
+								//if we find if then set it to true
+								for (var chal in $scope.leaderboard[index].solved){
 									if ($scope.leaderboard[index].solved[chal] == $scope.challenges[ourChal]['name']){
 										$scope.challenges[ourChal]['solved'] = true;
+										console.log('Isolved');
 									}
 								}
 							}
@@ -323,8 +341,11 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 
 	$scope.logout = function() {
 		$cookies.put('pointlessToken', 'VlROU2RtTkRRbk5pTWpseVlWYzFia2xIUmpCSlJ6RTFTVWRPZG1JeWRIQmFXRTFMQ2c9PQo=');
+		$cookies.put('welcomeName', '');
+		$scope.welcomeName = '';
 		$scope.loggedIn = false;
 		$scope.userToken = $cookies['pointlessToken'];
+		$scope.username = '';
 		$scope.tryPass = '';
 		$scope.pointsStatus = 0;
 		$scope.rank = null;
@@ -347,18 +368,21 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 				controller: 'SignupModalCtrl'
 		});
 
-		modalInstance.result.then(function (token) {
+		modalInstance.result.then(function (token, username) {
 			$cookies.put('pointlessToken', token);
 			$scope.userToken = token;
 			$scope.loggedIn =  (typeof($scope.userToken) != "undefined" && 
 				$cookies.get('pointlessToken') != '' && 
 				$cookies.get('pointlessToken') != 'VlROU2RtTkRRbk5pTWpseVlWYzFia2xIUmpCSlJ6RTFTVWRPZG1JeWRIQmFXRTFMQ2c9PQo=');
+
 			console.log('token == ' + token);
 			if ($scope.loggedIn){
 				$scope.tryPass = 'loginFlag';
 				$scope.getLevel(true);
 				$scope.tryPass = '';
 			}
+			$scope.updateScoreboard();
+
 
 		}, function () {
 			$log.info('Modal dismissed at: ' + new Date());
@@ -375,10 +399,13 @@ app.controller('ProductController', function($scope, $resource, $location, $wind
 		$scope.tryPass = 'loginFlag';
 		$scope.getLevel(true);
 		$scope.tryPass = '';
+	}else{
+		$scope.welcomeName = '';
+		$cookies.put('welcomeName', '');
+  		$scope.updateScoreboard();
 	}
 
   	$scope.welcomeName = $cookies.get('welcomeName');
-  	$scope.updateScoreboard();
 
 
 
@@ -493,8 +520,7 @@ app.controller('SignupModalCtrl', function ($scope, $uibModalInstance, $resource
   		$scope.alertText += "Hey Niel, how's things";
   	}
 
-
-
+  	console.log('asdfasf'  + $scope.careerInterest);
 
 		//Do validation
 
@@ -512,7 +538,8 @@ app.controller('SignupModalCtrl', function ($scope, $uibModalInstance, $resource
 			//We have successfully created a new user
 			//The token will be sent back as the response
 
-			$uibModalInstance.close(response.S);
+			console.log(response);
+			$uibModalInstance.close(response.S, $scope.username);
 		}else{
 			console.log(response);
   			//Show alert
