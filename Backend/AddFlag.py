@@ -21,8 +21,8 @@ conn = dynamodb2.connect_to_region(
     aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY']
 )
 
-flag = ""
-salts =  ""
+flag =
+salts =  
 
 #make a hash of it with the salt
 hashedFlag = flag
@@ -34,9 +34,9 @@ print hashedFlag
 
 data = {
     "flag": hashedFlag,
-    "challenge": "sequence",
-    "category": "Reversing",
-    "points": 100
+    "challenge": "Mac_n_me",
+    "category": "Programming",
+    "points": 73
 }
 flagTable = Table(
     TABLE_NAME,
