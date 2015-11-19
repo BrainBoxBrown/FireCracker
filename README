@@ -1,0 +1,24 @@
+This is the War Room by flynn
+
+it's a UNSW Security Society WarGame
+
+The whole thing is on AWS-Lambda and is covered by free tier (for now)
+
+I want to implement a few things:
+
+The ability to archive a challenge so that there are only a limited amount available
+This forces players to remain engaged but also leads to a massive repository of cool challenges
+
+See who's solved what, how many solves, etc
+
+Graphs!
+
+
+
+
+If you want to contribute, email brainboxbrown@gmail.com
+
+I have a box set up to run challenges on which people can connect to via net cat. eg nc IP_ADDR 3441
+
+
+ 
